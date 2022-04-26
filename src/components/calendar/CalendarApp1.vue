@@ -33,7 +33,7 @@ import events, { todayDate } from "@/core/data/events";
 import { TODAY } from "@/core/data/events";
 
 export default defineComponent({
-  name: "calendar-app-1",
+  name: "calendar",
   components: {
     FullCalendar
   },

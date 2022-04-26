@@ -153,6 +153,7 @@ import Step3 from "@/components/wizard/steps/Step3.vue";
 import Step4 from "@/components/wizard/steps/Step4.vue";
 import Step5 from "@/components/wizard/steps/Step5.vue";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
+import { users } from "@/data-custom"
 
 interface IStep1 {
   accountType: string;
@@ -162,6 +163,7 @@ interface IStep2 {
   accountTeamSize: string;
   accountName: string;
   accountPlan: string;
+  users
 }
 
 interface IStep3 {
@@ -199,6 +201,7 @@ export default defineComponent({
 
     const formData = ref<CreateAccount>({
       accountType: "personal",
+      users,
       accountTeamSize: "50+",
       accountName: "",
       accountPlan: "1",
@@ -213,6 +216,7 @@ export default defineComponent({
       cardExpiryYear: "2",
       cardCvv: "123",
       saveCard: "1",
+      
     });
 
     onMounted(() => {
@@ -229,7 +233,16 @@ export default defineComponent({
       }),
       Yup.object({
         accountName: Yup.string().required().label("Account Name"),
+        users: Yup
+        .array()
+        .of(
+          Yup.object().shape({
+            name: Yup.string().required().label("Name"),
+            email: Yup.string().email().required().label("Email"),
+          })
+        )
       }),
+
       Yup.object({
         businessName: Yup.string().required().label("Business Name"),
         businessDescriptor: Yup.string()
@@ -276,6 +289,7 @@ export default defineComponent({
         ...formData.value,
         ...values,
       };
+      console.log('lilo', formData.value)
 
       currentStepIndex.value++;
 

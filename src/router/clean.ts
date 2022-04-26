@@ -16,6 +16,16 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: "/horizontal1",
+        name: "opinion",
+    component: () => import("@/views/crafted/pages/wizards/Horizontal.vue"),
+  },
+  {
+    path: "/horizontal2",
+        name: "calendar",
+    component: () => import("@/views/crafted/pages/wizards/Horizontal.vue"),
+  },
+  {
     path: "/",
     component: () => import("@/components/page-layouts/Auth.vue"),
     children: [
