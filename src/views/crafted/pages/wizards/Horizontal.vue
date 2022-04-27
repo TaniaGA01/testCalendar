@@ -202,7 +202,7 @@ export default defineComponent({
     const formData = ref<CreateAccount>({
       accountType: "personal",
       users,
-      accountTeamSize: "50+",
+      accountTeamSize: "",
       accountName: "",
       accountPlan: "1",
       businessName: "Keenthemes Inc.",
@@ -285,11 +285,27 @@ export default defineComponent({
     });
 
     const handleStep = handleSubmit((values) => {
-      formData.value = {
-        ...formData.value,
-        ...values,
-      };
-      console.log('lilo', formData.value)
+
+      if(currentStepIndex.value === 0){
+
+        formData.value = {
+          ...formData.value,
+          ...values,
+        };
+        console.log('account Type', formData.value.accountType)
+        
+      }
+      
+      if(currentStepIndex.value === 1){
+
+        formData.value = {
+          ...formData.value,
+          ...values,
+        };
+        console.log('account name', formData.value.accountName)
+        console.log('users', formData.value.users)
+
+      }
 
       currentStepIndex.value++;
 

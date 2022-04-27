@@ -171,7 +171,7 @@ export default defineComponent({
   name: "step-2",
   components: {
     Field,
-    ErrorMessage,
+    ErrorMessage,     
     UserForm,
     Calendar
   },
