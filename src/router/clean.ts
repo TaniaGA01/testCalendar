@@ -8,22 +8,25 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     component: () => import("@/components/calendar/CalendarApp1.vue"),
     children: [
-      {
-        path: "/dashboard",
-        name: "dashboard",
-        component: () => import("@/views/Dashboard.vue"),
-      },
+      
     ],
   },
   {
-    path: "/horizontal1",
+    path: "/hola",
+    redirect: "/dashboard",
+    component: () => import("@/layout/Layout.vue"),
+    children: [
+      {
+        path: "horizontal1",
         name: "opinion",
-    component: () => import("@/views/crafted/pages/wizards/Horizontal.vue"),
-  },
-  {
-    path: "/horizontal2",
+        component: () => import("@/views/crafted/pages/wizards/Horizontal.vue"),
+      },
+      {
+        path: "horizontal2",
         name: "calendar",
-    component: () => import("@/views/crafted/pages/wizards/Horizontal.vue"),
+        component: () => import("@/views/crafted/pages/wizards/Horizontal.vue"),
+      }
+    ]
   },
   {
     path: "/",

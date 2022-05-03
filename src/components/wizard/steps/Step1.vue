@@ -24,6 +24,40 @@
     <!--end::Heading-->
 
     <!--begin::Input group-->
+    <div class="fv-row mb-10">
+      <!--begin::Label-->
+      <label class="d-flex align-items-center form-label">
+        <span class="required">Shortened Descriptor</span>
+
+        <i
+          class="fas fa-exclamation-circle ms-2 fs-7"
+          data-bs-toggle="popover"
+          data-bs-trigger="hover"
+          data-bs-html="true"
+        >
+        </i>
+      </label>
+      <!--end::Label-->
+
+      <!--begin::Input-->
+      <Field
+        name="businessDescriptor"
+        class="form-control form-control-lg form-control-solid"
+      />
+      <!--end::Input-->
+      <ErrorMessage
+        name="businessDescriptor"
+        class="fv-plugins-message-container invalid-feedback"
+      ></ErrorMessage>
+
+      <!--begin::Hint-->
+      <div class="form-text">
+        Customers will see this shortened version of your statement descriptor
+      </div>
+      <!--end::Hint-->
+    </div>
+
+    <!--begin::Input group-->
     <div class="fv-row">
       <!--begin::Row-->
       <div class="row">

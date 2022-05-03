@@ -52,7 +52,7 @@
         >
           <!--begin::Step 1-->
           <div class="current" data-kt-stepper-element="content">
-            <Step1></Step1>
+            <Step1 ></Step1>
           </div>
           <!--end::Step 1-->
 
@@ -163,12 +163,13 @@ interface IStep2 {
   accountTeamSize: string;
   accountName: string;
   accountPlan: string;
+  businessDescriptor: string;
   users
 }
 
 interface IStep3 {
   businessName: string;
-  businessDescriptor: string;
+  
   businessType: string;
   businessDescription: string;
   businessEmail: string;
@@ -206,7 +207,7 @@ export default defineComponent({
       accountName: "",
       accountPlan: "1",
       businessName: "Keenthemes Inc.",
-      businessDescriptor: "KEENTHEMES",
+      businessDescriptor: "",
       businessType: "1",
       businessDescription: "",
       businessEmail: "corp@support.com",
@@ -230,6 +231,9 @@ export default defineComponent({
     const createAccountSchema = [
       Yup.object({
         accountType: Yup.string().required().label("Account Type"),
+        businessDescriptor: Yup.string()
+          .required()
+          .label("Shortened Descriptor"),
       }),
       Yup.object({
         accountName: Yup.string().required().label("Account Name"),
@@ -245,9 +249,7 @@ export default defineComponent({
 
       Yup.object({
         businessName: Yup.string().required().label("Business Name"),
-        businessDescriptor: Yup.string()
-          .required()
-          .label("Shortened Descriptor"),
+        
         businessType: Yup.string().required().label("Corporation Type"),
         businessEmail: Yup.string().required().label("Contact Email"),
       }),

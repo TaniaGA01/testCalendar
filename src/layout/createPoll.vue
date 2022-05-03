@@ -33,7 +33,7 @@
               'container-xxl': !contentWidthFluid,
             }"
           >
-            <router-view :key="$route.path"/>
+            <router-view  />
           </div>
         </div>
         <!-- end:: Content Body -->
