@@ -47,23 +47,33 @@ export default {
     ErrorMessage,
     FieldArray,
   },
-//   data: () => {
-//     const schema = 
+  data: () => {
+  //   const createAccountSchema = yup.object().shape({
+  //     users: yup
+  //       .array()
+  //       .of(
+  //         yup.object().shape({
+  //           name: yup.string().required().label("Name"),
+  //           email: yup.string().email().required().label("Email"),
+  //         })
+  //       )
+  //       .strict(),
+  //   });
 
-//     const initialData = {
-//       users
-//     };
+    const initialData = {
+      users
+    };
 
-//     return {
-//       schema,
-//       initialData,
-//     };
-//   },
-//   methods: {
-//     onSubmit(values) {
-//       alert(JSON.stringify(values, null, 2));
-//     },
-//   },
+  //   return {
+  //     createAccountSchema,
+  //     initialData,
+  //   };
+  },
+  // methods: {
+  //   onSubmit(values) {
+  //     alert(JSON.stringify(values, null, 2));
+  //   },
+  // },
 };
 </script>
 

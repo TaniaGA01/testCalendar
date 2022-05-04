@@ -153,7 +153,8 @@ import Step3 from "@/components/wizard/steps/Step3.vue";
 import Step4 from "@/components/wizard/steps/Step4.vue";
 import Step5 from "@/components/wizard/steps/Step5.vue";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
-import { users } from "@/data-custom"
+import { users } from "@/data-custom";
+import { useRouter, useRoute } from 'vue-router'
 
 interface IStep1 {
   accountType: string;
@@ -186,6 +187,7 @@ interface IStep4 {
 
 interface CreateAccount extends IStep1, IStep2, IStep3, IStep4 {}
 
+
 export default defineComponent({
   name: "kt-horizontal-wizard",
   components: {
@@ -196,6 +198,9 @@ export default defineComponent({
     Step5,
   },
   setup() {
+    const router = useRouter()
+    const route = useRoute()
+
     const _stepperObj = ref<StepperComponent | null>(null);
     const horizontalWizardRef = ref<HTMLElement | null>(null);
     const currentStepIndex = ref(0);
@@ -228,7 +233,9 @@ export default defineComponent({
       setCurrentPageBreadcrumbs("Horizontal", ["Pages", "Wizards"]);
     });
 
-    const createAccountSchema = [
+    
+
+      const createAccountSchema = [
       Yup.object({
         accountType: Yup.string().required().label("Account Type"),
         businessDescriptor: Yup.string()
@@ -253,6 +260,32 @@ export default defineComponent({
         businessType: Yup.string().required().label("Corporation Type"),
         businessEmail: Yup.string().required().label("Contact Email"),
       }),
+      Yup.object({ 
+        nameOnCard: Yup.string().required().label("Name On Card"),
+        cardNumber: Yup.string().required().label("Card Number"),
+        cardExpiryMonth: Yup.string().required().label("Expiration Month"),
+        cardExpiryYear: Yup.string().required().label("Expiration Year"),
+        cardCvv: Yup.string().required().label("CVV"),
+      }),
+    ];
+
+    const createAccountSchema2 = [
+      Yup.object({
+        accountType: Yup.string().required().label("Account Type"),
+        businessDescriptor: Yup.string()
+          .required()
+          .label("Shortened Descriptor"),
+      }),
+      Yup.object({
+        accountName: Yup.string().required().label("Account Name"),
+      }),
+
+      Yup.object({
+        businessName: Yup.string().required().label("Business Name"),
+        
+        businessType: Yup.string().required().label("Corporation Type"),
+        businessEmail: Yup.string().required().label("Contact Email"),
+      }),
       Yup.object({
         nameOnCard: Yup.string().required().label("Name On Card"),
         cardNumber: Yup.string().required().label("Card Number"),
@@ -262,8 +295,17 @@ export default defineComponent({
       }),
     ];
 
+    
+
     const currentSchema = computed(() => {
-      return createAccountSchema[currentStepIndex.value];
+
+      if (route.name === 'opinion') {
+        return createAccountSchema[currentStepIndex.value];
+      
+    } else {
+      return createAccountSchema2[currentStepIndex.value];
+    }
+      
     });
 
     const { resetForm, handleSubmit } = useForm<
