@@ -154,6 +154,8 @@
 
   <UserForm v-if="opinionBlock" />
   <Calendar v-if="calendarBlock" />
+
+  
       <!--end::Options-->
     </div>
     <!--end::Input group-->

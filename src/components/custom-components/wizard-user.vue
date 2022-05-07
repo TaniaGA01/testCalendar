@@ -3,7 +3,7 @@
     <h1>vee-validate array fields</h1>
 
     
-      <p></p>
+      
 
       <FieldArray name="users" v-slot="{ fields, push, remove }">
         <fieldset
@@ -13,7 +13,8 @@
         >
           <legend>User #{{ idx }}</legend>
           <label :for="`name_${idx}`">Name</label>
-          <Field :id="`name_${idx}`" :name="`users[${idx}].name`" />
+          <Field :id="`name_${idx}`" 
+          :name="`users[${idx}].name`" />
           <ErrorMessage :name="`users[${idx}].name`" />
 
           <label :for="`email_${idx}`">Email</label>
@@ -39,6 +40,7 @@
 import { Field, Form, ErrorMessage, FieldArray } from "vee-validate";
 import { users } from "@/data-custom"
 import * as yup from "yup";
+import Users from '@/data-custom';
 
 export default {
   name: "App",
