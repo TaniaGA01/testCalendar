@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,reactive,ref } from "vue";
+import { defineComponent,reactive } from "vue";
 import { Field, Form, ErrorMessage, FieldArray } from "vee-validate";
 import FullCalendar from "@fullcalendar/vue3";
 import frLocale from '@fullcalendar/core/locales/fr';
@@ -117,13 +117,32 @@ export default defineComponent({
   setup() {
     
     // const id = ref(0)
+    // const getNewEvent = (e) => {
+    //   watchEffect(async() => {
+    //     await allEvents.push(e)
+    //     console.log('all events : ', allEvents)
+    //     }
+    //   )
+    // };
     const getNewEvent = (e) => {
-      allEvents.push(e)
-      console.log('all events : ', allEvents)
+        allEvents.push(e)
+        console.log('all events : ', allEvents)
+    };
+    
+    const updateNewEvent = (x) => { allEvents.map(e => {
+      if (e.idEvent === x.idEvent) {
+        console.log('e', e)
+        console.log('x', x)
+        return {...e, idEvent: x.idEvent, start: x.start, end: x.end};
+      }
+      console.log('nuevo e', e)
+      return e
     }
+    )};
+    
     const deleteNewEvent = (a,b) => {
       console.log('delete from all events : ', allEvents)
-      allEvents.splice(a).indexOf(b)
+      allEvents.splice(a).indexOf(b)-1
 
     }
     const calendarOptions = reactive({
@@ -132,6 +151,11 @@ export default defineComponent({
         left: "prev,next today",
         center: "title",
         right: "dayGridMonth,timeGridWeek,timeGridDay",
+      },
+      views: {
+        dayGridMonth: { buttonText: "month" },
+        timeGridWeek: { buttonText: "week" },
+        timeGridDay: { buttonText: "day" },
       },
       initialView: 'timeGridWeek',
       locales: [ frLocale ],
@@ -142,30 +166,21 @@ export default defineComponent({
       selectable: true,
       selectMirror: true,
       events: allEvents,
-      
-      
+      editable: true,
+      dayMaxEvents: true, // allow "more" link when too many events
+
       selectAllow: (selectInfo) => { // disable addEvent before today
         const beforeToday = todayDate.diff(selectInfo.start)
         const noEventsBeforeToday = beforeToday <= 0
         return noEventsBeforeToday
       },
 
-      views: {
-        dayGridMonth: { buttonText: "month" },
-        timeGridWeek: { buttonText: "week" },
-        timeGridDay: { buttonText: "day" },
-      },
-
-      editable: true,
-      dayMaxEvents: true, // allow "more" link when too many events
-      
       select: (e) => {
         // id.value = id.value + 1
         const cal = e.view.calendar
         console.log(`calendar`, cal)
 
-        cal.unselect() // allow drag and drop
-        
+        cal.unselect() 
         cal.addEvent({
           // id: e.event['_instance'].defId,
           start: e.start,
@@ -198,12 +213,41 @@ export default defineComponent({
         getNewEvent(newEvent)
         console.log('newEvent :', newEvent)
       },
+
+      eventChange:(e) => {
+        const idEvent = e.event['_instance'].defId
+        const start =  moment(e.event.start).format('LLL');
+        const end = moment(e.event.end).format('LLL');
+
+        // const start =  e.event.start;
+        // const end = e.event.end;
+        
+        const updateEvent = { idEvent, start, end }
+        
+        updateNewEvent(updateEvent)
+        console.log('updatNewEvent :', updateEvent)
+      },
+
+      eventRemove: (e) => {
+        const idEvent = e.event['_instance'].defId
+        const start =  moment(e.event.start).format('LLL');
+        const end = moment(e.event.end).format('LLL');
+
+        // const start =  e.event.start;
+        // const end = e.event.end;
+        
+        const newEvent = { idEvent, start, end }
+        
+        getNewEvent(newEvent)
+        console.log('newEvent :', newEvent)
+      },
     });
 
     return {
       calendarOptions,
       getNewEvent,
-      deleteNewEvent
+      deleteNewEvent,
+      updateNewEvent
     };
   },
 });
