@@ -13,10 +13,11 @@ const TOMORROW = todayDate.clone().add(1, "day").format("YYYY-MM-DD");
 const allEvents = [
   {
     idEvent:'',
-    start: "",
-    end: ""
+    start: '',
+    end: ''
   }
 ]
+
 
 // const allEvents = [
 //   {

@@ -97,7 +97,6 @@ import interactionPlugin from "@fullcalendar/interaction";
 import allEvents, { todayDate } from "@/core/data/events";
 import { TODAY } from "@/core/data/events";
 import moment from "moment";
-// import momentPlugin from '@fullcalendar/moment';
 
 
 export default defineComponent({
@@ -116,17 +115,15 @@ export default defineComponent({
   },
   
   setup() {
-    const id = ref(0)
-    const dateFormat = (e) =>{
-      moment(e).format("LLL")
-    }
+    
+    // const id = ref(0)
     const getNewEvent = (e) => {
-      console.log('all events : ', allEvents)
       allEvents.push(e)
+      console.log('all events : ', allEvents)
     }
-    const deleteNewEvent = (e) => {
+    const deleteNewEvent = (a,b) => {
       console.log('delete from all events : ', allEvents)
-      allEvents.splice(e)
+      allEvents.splice(a).indexOf(b)
 
     }
     const calendarOptions = reactive({
@@ -146,6 +143,7 @@ export default defineComponent({
       selectMirror: true,
       events: allEvents,
       
+      
       selectAllow: (selectInfo) => { // disable addEvent before today
         const beforeToday = todayDate.diff(selectInfo.start)
         const noEventsBeforeToday = beforeToday <= 0
@@ -162,50 +160,50 @@ export default defineComponent({
       dayMaxEvents: true, // allow "more" link when too many events
       
       select: (e) => {
-        id.value = id.value + 1
+        // id.value = id.value + 1
         const cal = e.view.calendar
+        console.log(`calendar`, cal)
+
         cal.unselect() // allow drag and drop
+        
         cal.addEvent({
-          id: id.value,
+          // id: e.event['_instance'].defId,
           start: e.start,
           end: e.end
-          
         })
       },
 
       eventClick:(e) => {
-        const evento = e.event
-        const eventIdent = e.event['_instance'].defId
-        console.log('evento :', evento)
-        console.log('eventIdent :', eventIdent)
+        const idEvent = e.event['_instance'].defId
+        const start =  moment(e.event.start).format('LLL');
+        const end = moment(e.event.end).format('LLL');
+        const newEvent = { idEvent, start, end }
 
-        
-        if (eventIdent) { 
-          deleteNewEvent(evento)
-          evento.remove()
+        if (idEvent) { 
+          deleteNewEvent(newEvent, idEvent)
+          e.event.remove()
         }
       },
 
       eventAdd: (e) => {
-        const idEvent = id.value
-        const start = e.event.start 
-        const end = e.event.end
+        const idEvent = e.event['_instance'].defId
+        const start =  moment(e.event.start).format('LLL');
+        const end = moment(e.event.end).format('LLL');
+
+        // const start =  e.event.start;
+        // const end = e.event.end;
         
         const newEvent = { idEvent, start, end }
-
         
         getNewEvent(newEvent)
         console.log('newEvent :', newEvent)
       },
-      
-
     });
 
     return {
       calendarOptions,
       getNewEvent,
-      deleteNewEvent,
-      dateFormat
+      deleteNewEvent
     };
   },
 });
