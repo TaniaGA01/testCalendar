@@ -366,6 +366,7 @@
                 </div>
               </div>
             </div>
+            
             <!--end:Col-->
             <!--begin:Col-->
             <div class="col-lg-4 border-left-lg-1">
@@ -430,6 +431,10 @@
       <!--end::Menu-->
     </div>
   </div>
+  <div class="c">
+    <a href="/#/hola/horizontal1" @click="reloadPage"> wizar1</a>
+    <a href="/#/hola/horizontal2" @click="reloadPage"> wizar2</a>
+  </div>
   <!--end::Menu wrapper-->
 </template>
 
@@ -444,6 +449,14 @@ import { version } from "@/core/helpers/documentation";
 export default defineComponent({
   name: "KTMenu",
   components: {},
+  created() {
+    this.reloadPage
+  },
+  methods: {
+    reloadPage(){
+      window.setInterval("location.reload()",1000)
+    }
+  },
   setup() {
     const { t, te } = useI18n();
     const route = useRoute();
